@@ -1,0 +1,97 @@
+name: migrate
+description: |
+  Ready to use migrator
+version: 0.0.9
+keywords:
+  - rest
+  - rf
+  - model
+  - object
+  - migrate
+  - model
+  - classes
+  - class
+  - socket
+  - aexol
+  - artur
+  - czemiel
+config:
+  MIGRATE_KEY:
+    description: |
+      Your secret key for configuration options
+      Example: 1je1je9jqw9j891r8wp89rh8p#!$!#4-1341
+    required: true
+classes:
+  propertytype:
+    - name: name
+      type: string
+    - name: icon
+      type: file
+    - name: migrate_id
+      type: integer
+endpoints:
+  migrate:
+    description: Install whole objects table to your rest-framework/database
+    file: migrate.js
+    parameters:
+      model:
+        type: string
+        description: name of class to remove object from
+        example: strings
+        required: true
+      link:
+        type: string
+        description: public link to another rest object service
+        example: 'http://restservice.com/mymodel/objects/'
+        required: true
+      fields:
+        type: array
+        description: array of field names
+        example:
+          - name
+          - title
+          - author
+        required: true
+      key:
+        type: string
+        description: your REST_FRAMEWORK_KEY
+        example: 231431dsaojdsaiur47813t
+        required: true
+      transform:
+        type: array
+        description: array of field transforms
+        example: |
+          [
+            {
+              "from":"name",
+              "to":"surname"
+            }
+          ]
+        required: false
+      header:
+        type: string
+        description: Name of the header for authorization in your link
+        example: 'Authorization:'
+        required: false
+      token:
+        type: string
+        description: Token needed for authorization in your link
+        example: dadsa17623t61374y1hsauij
+        required: false
+    response:
+      mimetype: application/json
+      success:
+        description: Success
+        parameters:
+          geocoded_waypoints:
+            type: array
+            description: array of geocoded waypoints
+            example: []
+      error:
+        description: Error
+        exit_code: 400
+        parameters:
+          message:
+            type: string
+            description: error message
+            example: Incorrect link

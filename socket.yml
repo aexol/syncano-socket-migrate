@@ -1,7 +1,7 @@
 name: migrate
 description: |
   Ready to use migrator
-version: 0.0.9
+version: 0.0.11
 keywords:
   - rest
   - rf
@@ -22,12 +22,25 @@ config:
       Example: 1je1je9jqw9j891r8wp89rh8p#!$!#4-1341
     required: true
 classes:
-  propertytype:
-    - name: name
+  migration_status:
+    - name: model
       type: string
-    - name: icon
-      type: file
-    - name: migrate_id
+      filter_index: true
+    - name: status
+      type: string
+      filter_index: true
+    - name: progress
+      type: string
+    - name: mids
+      type: array
+  migration_pair:
+    - name: model
+      type: string
+      filter_index: true
+    - name: old
+      type: integer
+      filter_index: true
+    - name: new
       type: integer
 endpoints:
   migrate:
@@ -83,10 +96,14 @@ endpoints:
       success:
         description: Success
         parameters:
-          geocoded_waypoints:
+          status:
             type: array
-            description: array of geocoded waypoints
-            example: []
+            description: Status of migration
+            example: migrating
+          progress:
+            type: string
+            description: Progress of migration
+            example: 1/100
       error:
         description: Error
         exit_code: 400
@@ -94,4 +111,11 @@ endpoints:
           message:
             type: string
             description: error message
-            example: Incorrect link
+            example: Incorrect lin
+      done:
+        description: Migration is done
+        parameters:
+          status:
+            type: string
+            description: Migration of model ended
+            example: end
